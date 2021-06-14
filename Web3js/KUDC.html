@@ -1,0 +1,491 @@
+﻿<!Doctype html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="./lib/bignumber.min.js"></script>
+<script type="text/javascript" src="./lib/web3-light.js"></script>
+<script type="text/javascript" src="./lib/jsQR.js"></script>
+<script type="text/javascript" src="./app.js"></script>
+<link href="./lib/style.css" rel="stylesheet" type="text/css">
+
+
+<!--<h1>KUDC Payment</h1>-->
+<div id="tablePlace"></div> <!-- 이게 이체하는 계좌 코드 나오는 곳임--> 
+<!--<h4>송신처  <select id="accounts"></select> </h4> -->
+<h2>
+	<img src ="./Item_IMG/null.PNG"  id="itemImg" style="width: 70%; height: 45%; margin: 0px 0px 0px 108px;"> <!--아이템 이미지 들어가는 곳-->
+</h2>
+<h4>품목 이름  <input type="text"  size="40" value="" id="shopName" style="width: 330px; height: 45px; font-size: 35px;"></h4>
+<h4>가게 코드  <input type="text" size="40" value="" id="shopCode" style="width: 330px; height: 45px; font-size: 35px;"></h4> <!-- QR코드 들어오게 할 것-->
+<h5>금액  <input  type="number" id="itemPrice"  style="width: 330px; height: 45px; font-size: 35px; "/> KUDC</h5> <!-- 금액 입력-->
+<h6>비밀 번호 <input id="pass" type="password"  style="width: 330px; height: 45px; font-size: 35px;"/>
+	<button onClick="javascript:send()" style="margin: 12px 0px 10px 3px;  font-size: 30px;">결제</button></h6> <!-- 비밀번호 입력-->
+
+
+<!--<script type="file" src="../KUDCdemo/items/item.json.txt"></script>-->
+<!--<script type="text/javascript" src="../KUDCdemo/items/item.json.txt"></script>-->
+<script type="text/javascript">
+
+var bbockki = '0x25cedba7451147b6a710c17ef59cf10aa14c4818';
+var salmon = '0x313c155868f7a9a7823361c41afb0a6be56fe959';
+var mammoth = '0x58db1e00a2f78a776e17d9fde9f386bcc73c53d1';
+
+	/*
+	async function CODE_MATCH(code)
+	{
+		if(code===salmon)
+		{
+			document.getElementById('shopCode').value= code.data;
+			document.getElementById('shopName').value= await SHOP_MATCH(code.data);
+			document.getElementById('itemPrice').value= await ITEM_PRICE(code.data);
+			document.getElementById('itemImg').setAttribute('src', await ITEM_IMG(code.data));
+		}
+	}
+	*/
+
+	/*
+	return new Promise((r1,r2)=> {
+				setTimeout(() => {
+					return "고른햇살 떡볶이";
+				}, 10 * n);
+				r1();
+			})
+			*/
+	/*
+	function SHOP_MATCH(shopCode){ //코드랑 이름 맞춰주는 함수
+		***계정번호에 자꾸 0x붙어서 인식이 안됐던 것이니 잘 확인해라. 잠을 안자고 하니 그렇지!
+
+		if (shopCode==bbockki)
+		{	//고른햇살 떡볶이
+			return "고른햇살 떡볶이";	
+		}
+
+		else if(shopCode=='연어 초밥')
+		{
+			
+			return '연어 초밥';
+			
+		}
+		else if (shopCode==='0x58db1e00a2f78a776e17d9fde9f386bcc73c53d1')
+		{
+			return '아이스 아메리카노';
+		}
+	
+		
+	}
+
+	function ITEM_PRICE(shopCode){
+		if (shopCode===bbockki)
+		{	//고른햇살 떡볶이
+			return '3.5';
+		}
+		else if(shopCode===salmon)
+		{
+			return '19';
+		}
+		else if (shopCode===mammoth)
+		{
+			return '1.4'
+		}
+		else
+		{
+			return '';
+		}
+
+	}
+	function ITEM_IMG(shopCode)
+	{
+		if (shopCode===bbockki)
+		{	//고른햇살 떡볶이
+			return 'Item_IMG/고른햇살 떡볶이.jpg';
+		}
+		else if(shopCode===salmon)
+		{
+			return 'Item_IMG/연어 초밥.jpg';
+		}
+		else if (shopCode===mammoth)
+		{
+			return 'Item_IMG/매머드 커피.jpg'
+		}
+		else
+		{
+			return './Item_IMG/null.PNG';
+		}
+			
+	}
+	*/
+
+	document.addEventListener("DOMContentLoaded", function() {
+	//alert(navigator.appName);
+
+	var video = document.createElement("video");		
+	var canvasElement = document.getElementById("canvas");
+	var canvas = canvasElement.getContext("2d");
+	var loadingMessage = document.getElementById("loadingMessage");
+	var outputContainer = document.getElementById("output");
+	var outputMessage = document.getElementById("outputMessage");
+	var outputData = document.getElementById("outputData");
+
+
+	function drawLine(begin, end, color) {
+		canvas.beginPath();
+		canvas.moveTo(begin.x, begin.y);
+		canvas.lineTo(end.x, end.y);
+		canvas.lineWidth = 4;
+		canvas.strokeStyle = color;
+		canvas.stroke();
+			}
+
+
+		// 카메라 사용시
+		
+	navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+				video.srcObject = stream;
+				video.setAttribute("playsinline", true);      // iOS 사용시 전체 화면을 사용하지 않음을 전달
+				video.play();
+				requestAnimationFrame(tick);
+
+	});
+
+
+
+	function tick() {
+		loadingMessage.innerText = "⌛ 스캔 기능을 활성화 중입니다."
+		if(video.readyState === video.HAVE_ENOUGH_DATA) {
+				loadingMessage.hidden = true;
+				canvasElement.hidden = false;
+				outputContainer.hidden = false;
+
+				// 읽어들이는 비디오 화면의 크기
+
+				canvasElement.height = video.videoHeight;
+				canvasElement.width = video.videoWidth;
+
+				canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+				var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+				var code = jsQR(imageData.data, imageData.width, imageData.height, {
+
+								inversionAttempts : "dontInvert",
+
+				});
+
+								
+
+			
+
+						// QR코드 인식에 성공한 경우
+
+						if(code) {
+								
+
+								// 인식한 QR코드의 영역을 감싸는 사용자에게 보여지는 테두리 생성
+								drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF0000");
+								drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF0000");
+								drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF0000");
+								drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF0000");
+
+								outputMessage.hidden = true;
+								outputData.parentElement.hidden = false;
+
+								// QR코드 메시지 출력, 가게이름과 코드 넣어주는 곳
+								outputData.innerHTML = code.data;
+								
+
+								if(code.data=='313c155868f7a9a7823361c41afb0a6be56fe959')
+								{
+									document.getElementById('shopCode').value = code.data;
+									document.getElementById('shopName').value = "연어 초밥";
+									document.getElementById('itemPrice').value = 19;
+									document.getElementById('itemImg').setAttribute('src','Item_IMG/연어 초밥.jpg');
+									return; 
+								}
+								else if(code.data=='58db1e00a2f78a776e17d9fde9f386bcc73c53d1')
+								{
+									document.getElementById('shopCode').value = code.data;
+									document.getElementById('shopName').value = "아이스 아메리카노";
+									document.getElementById('itemPrice').value = 1.4;
+									document.getElementById('itemImg').setAttribute('src','Item_IMG/매머드 커피.jpg');
+									return; 
+								}
+								else if(code.data=='0x25cedba7451147b6a710c17ef59cf10aa14c4818')
+								{
+									document.getElementById('shopCode').value = code.data;
+									document.getElementById('shopName').value = "고른햇살 떡볶이";
+									document.getElementById('itemPrice').value = 3.5;
+									document.getElementById('itemImg').setAttribute('src','Item_IMG/고른햇살 떡볶이.jpg');
+									return; 
+								}
+
+								
+									
+								
+
+								//document.getElementById('shopCode').value= code.data;
+								//document.getElementById('shopName').value=SHOP_MATCH(code.data);
+								//document.getElementById('itemPrice').value= ITEM_PRICE(code.data);
+								//document.getElementById('itemImg').setAttribute('src',ITEM_IMG(code.data));
+								
+
+
+			
+
+								
+								// return을 써서 함수를 빠져나가면 QR코드 프로그램이 종료된다.
+								// return;
+						}
+						
+						// QR코드 인식에 실패한 경우 
+
+						else {
+								outputMessage.hidden = false;
+								outputData.parentElement.hidden = true;
+						}
+
+				}
+				requestAnimationFrame(tick);
+
+	}
+
+	});
+
+	//var Item = { //객체 리터럴 표기법
+    //필수 정보는 근무자 이름, 주소, 연락처, 사업체명, 서명
+    //name : ''
+    //address : '',
+	//};
+	function getNowTime24(){
+    		// DATE 객체
+    		var NOW_DATE = new Date(); 
+
+    		// UTC 시간 계산
+    		const UTC = NOW_DATE.getTime() + (NOW_DATE.getTimezoneOffset() * 60 * 1000); 
+
+    		// UTC to KST (UTC + 9시간)
+    		const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    		const KR_DATE = new Date(UTC + (KR_TIME_DIFF));
+    		console.log("KST : "+KR_DATE);
+
+    		// 개별 데이터 확인 실시
+    		var YYYY = KR_DATE.getFullYear(); // 연 (4자리)    		
+    		var MM = ("00"+(KR_DATE.getMonth()+1)).slice(-2); // 월 (2자리)
+    		var DD = ("00"+KR_DATE.getDate()).slice(-2); // 일 (2자리)
+
+    		var HH24 = ("00"+KR_DATE.getHours()).slice(-2); // 시간 (24시간 기준, 2자리)
+    		var MI = ("00"+KR_DATE.getMinutes()).slice(-2); // 분 (2자리)
+    		var SS = ("00"+KR_DATE.getSeconds()).slice(-2); // 초 (2자리)
+
+    		var DAY = KR_DATE.getDay(); // 요일 (정수값)
+    		if (DAY == 0){
+    			DAY = "일요일";
+    		}
+    		else if(DAY == 1){
+    			DAY = "월요일";
+    		}
+    		else if(DAY == 2){
+    			DAY = "화요일";
+    		}
+    		else if(DAY == 3){
+    			DAY = "수요일";
+    		}
+    		else if(DAY == 4){
+    			DAY = "목요일";
+    		}
+    		else if(DAY == 5){
+    			DAY = "금요일";
+    		}
+    		else if(DAY == 6){
+    			DAY = "토요일";
+    		}
+    		else {
+    			DAY = "NO";	
+    		}
+
+    		// 리턴값 데이터 포맷 실시
+    		var return_format = YYYY + "-" + MM + "-" + DD + " " + HH24 + ":" + MI + ":" + SS + " " + DAY;    		
+    		
+    		return return_format;
+    	}
+
+
+	var Web3 = require('web3');
+	var web3 = new Web3();	
+	var version = web3.version.api;
+
+	var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8123'));
+	// 잔고를 출력합니다.
+	function refreshBalance() { 
+		// tablePlace를 초기화하고 계좌수 만큼 테이블의 행을 생성합니다.
+		document.getElementById("tablePlace").innerText = " ";
+		var idiv = document.createElement('div');
+		document.getElementById("tablePlace").appendChild(idiv);
+		var list = web3.eth.accounts;
+		var total = 0;
+		var input ="<table>";
+		
+		let array = ["내 계좌", "고른 햇살", "연어 이야기", "맘모스 커피"];
+		
+		for(var i = 0; i<list.length; i++){
+			var tempB= parseFloat(web3.fromWei(web3.eth.getBalance(list[i]),"ether"));
+			input +="<tr><td><strong>"+array[i]+ "</strong></td><td>" + tempB +" KUDC</td></tr>";
+			total+=tempB;
+		}
+		//input +="<tr><td><strong> TOTAL </strong></td><td><strong>" + total +" KUDC</strong></td></tr></table>";
+		idiv.innerHTML = input;	
+		web3.eth.filter('latest').watch(function() { refreshBalance();});
+	}
+	// 사용자의 계좌들을 select로 만듭니다.
+	function makeSelect() { 
+		var list = web3.eth.accounts;
+		var select =  document.getElementById('accounts');
+		for(var i = 0; i<list.length; i++){
+			var opt=document.createElement('option');
+			opt.value = list[i];
+			opt.innerHTML = list[i];
+			select.appendChild(opt);
+		}
+	}
+
+	//***************************
+	
+	
+
+	function saveToFile_Chrome(fileName, content) { //txt 파일로 생성 및 다운로드
+    var blob = new Blob([content], { type: 'text/plain' });
+    objURL = window.URL.createObjectURL(blob);
+            
+    // 이전에 생성된 메모리 해제
+    if (window.__Xr_objURL_forCreatingFile__) {
+        window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
+    }
+    window.__Xr_objURL_forCreatingFile__ = objURL;
+    var a = document.createElement('a');
+    a.download = fileName;
+    a.href = objURL;
+    a.click();
+	}
+
+	function jsonPrint(form){ //값이 있을 때만 json 만들고 싶을 때 씀
+		if(form!="")
+		return form;
+	}
+	
+
+	/*
+	JSON 객체에 키(key)와 값(value)를 추가하고 삭제하는 방법
+
+
+
+	var json = {NAME: "John", AGE: 30, SEX: "male"};
+
+
+
+	//add item (key, value)
+
+	json.BIRTHDAY = '2001-03-01';
+
+
+
+	//delete item (key)
+
+	delete json.SEX;
+
+*/
+
+								
+	
+
+	
+	function send(){ 
+	//../KUDCdemo/items/item.json.txt
+	//if(Employee['name']!='')	
+	//var metaverseItem = JSON.stringify(Item,null,3); // 제이슨 객체를 String 객체로 변환, 반대로 JSON.parse()는 string 객체를 json 객체로 변환한다. null과 3은 정렬을 위해서다.
+    //saveToFile_Chrome("item.xml",metaverseItem); // -> 일단 나중에 바꿔. 코인 보내지면 되도록
+	
+	//var parseData = JSON.parse(JSON.stringify(Items)); // 제이슨 파일 불러왔음
+	//alert(parseData.name);
+	//parseData.birtday='212';
+	//alert(fs);
+	//const fs = require('fs');
+	//const data = fs.readFileSync('../KUDCdemo/items/Item.json');
+	//const dataJSON = data.toString();
+	//const item = JSON.parse(dataJSON);
+	//const itemJSON = JSON.stringify(item);
+	//fs.writeFileSync('../KUDCdemo/items/Item.json',itemJSON);
+
+	
+	var add = document.getElementById('shopCode').value;
+
+	
+
+	var Item = { //객체 리터럴 표기법
+    //필수 정보는 근무자 이름, 주소, 연락처, 사업체명, 서명
+    //address : '',
+    
+	};
+	var str_date = getNowTime24();
+	Item.Name = 'salmon.NFT';
+	Item.Explanation = '고대 주변에서 가장 맛있다는 연어초밥, 맛있어 보인다.';
+	Item.Place = '연어 이야기'
+	Item.Day = str_date;
+	
+
+	var metaverseItem = JSON.stringify(Item,null,3);
+	saveToFile_Chrome("item.txt",metaverseItem);
+	
+	
+	
+    
+	
+	var address = "0x98a0706cbfa0cafd16b6027ddcc3ba9b6994ea89"//document.getElementById('accounts').value;
+	var toAddress = document.getElementById('shopCode').value;
+	var amount = web3.toWei(document.getElementById('itemPrice').value,"ether");
+	//web3.eth.defaultAccount = address;
+	if(web3.personal.unlockAccount(address,document.getElementById('pass').value)){
+		web3.eth.sendTransaction({from: address, to:toAddress, value:amount},function(err,result){
+			if(!err)
+				{
+					console.log('Transaction is sent Successful!('+result+')');
+					alert(document.getElementById('itemPrice').value+" KUDC가 정상적으로 전송되었습니다.");
+				}
+			else
+				{
+					console.log(err);
+				}	
+		});}
+}
+
+</script>
+</head>
+
+
+<body>
+		<div id="test">
+			<div id="output">
+				<div id="outputMessage">
+					QR코드를 카메라에 노출시켜 주세요
+				</div>
+				<div id="outputLayer" hidden>
+					<span id="outputData"></span>
+				</div>
+			</div>
+		</div>
+		<div>&nbsp;</div>
+	
+		<div>
+			<h1>스캔</h1>
+			<div id="frame">
+				<div id="loadingMessage">
+					🎥 비디오 스트림에 액세스 할 수 없습니다<br/>웹캠이 활성화되어 있는지 확인하십시오
+				</div>
+				<canvas id="canvas"></canvas>
+			</div>
+		</div>
+	<script>
+		refreshBalance();
+		makeSelect();
+	</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,7 @@
+[0607/174339.146:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0609/231212.738:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0609/234418.700:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0610/133329.089:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0611/133329.166:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0613/045738.678:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[0613/085316.165:ERROR:process_info.cc(375)] NtQuerySystemInformation SystemExtendedHandleInformation: 지정한 정보 기록 길이가 지정한 정보 클래스에 요구한 길이와 맞지 않습니다. (0xc0000004)

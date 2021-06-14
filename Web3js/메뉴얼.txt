@@ -1,0 +1,35 @@
+https://hane-1.tistory.com/35 (j쿼리 적용)
+https://benant.wordpress.com/2018/08/30/qr-code-javascript-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC/ 큐알코드 관련 코드 (QR Code Javascript 라이브러리)
+https://wickedmagica.tistory.com/154 (큐알코드 스캔하고 데이터 읽기)
+https://web-inf.tistory.com/15 (큐알코드 생성 플러그인)
+https://www.codingfactory.net/10187 (css 기초문법)
+https://dasima.xyz/html-input-text-size/ (인풋필드 사이즈 조절)
+
+
+http://www.devkorea.co.kr/bbs/board.php?bo_table=m03_qna&wr_id=19067 (unity에서 웹페이지로 메시지 보내기)
+https://docs.unity3d.com/kr/530/Manual/UnityWebPlayerandbrowsercommunication.html (unity에서 웹페이지로 메시지 보내기)
+https://ko.javascript.info/intro (자바스크립트란?)
+https://mugrammer.tistory.com/99 (파일에 텍스트 덮어 쓰기) 
+
+
+https://phiru.tistory.com/328 (유니티 xml에서 아이템 정보 가져오기)
+https://pythonq.com/so/javascript/16114 (자바스크립트 json 덮어쓰기)
+https://potensj.tistory.com/99 (자바스크립트 json 수정하기)
+https://93nss.tistory.com/30 (서버없이 html에서 json 파일 읽기)
+https://codegear.dev/ko/questions/19706046 (외부에서 로컬 json 파일을 읽는 방법)
+https://java119.tistory.com/54 (json 기초 메뉴얼)
+
+https://www.nextree.co.kr/p10091/ (jquery로 파싱)
+
+https://93nss.tistory.com/30 (7시간만에 이게 되어버리네ㅋㅋㅋㅋㅋ)
+https://dydals5678.tistory.com/96 (node js로 파일수정)
+https://smilehugo.tistory.com/entry/nodejs-json-create-store-read-update (node js로 파일 수정2 거으 됨) 
+https://walkinpcm.blogspot.com/2017/03/webnodejs-express.html (Express 설치 및 웹페이지 연결)
+
+https://cocoon1787.tistory.com/504 (후.. 이거 된다. express 웹페이지 연결)
+https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v3/developer-guide/node-js-considerations.html (내장 nodejs 연결)
+https://kldp.org/node/152110  (웹으로만은 안되는 이유)
+
+cd C:\Users\president\Desktop\KUDCDEMO\Web3js
+
+

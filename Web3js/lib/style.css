@@ -1,0 +1,148 @@
+html {
+    font-size: 25px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  
+  h1 {
+    font-size: 60px;
+    text-align: center;
+  }
+/*margin(외부): 위 오 아 왼*/
+table {  text-align: center; margin: 20px 15px 20px 110px;   border-collapse: collapse; background-color: rgb(255, 102, 102);   border: 4px solid rgb(255, 255, 255);	width: 70%; font-size: 20px;} /*여기가 보유화폐량 폰트 사이즈*/
+tr:nth-child(even){background-color: rgb(255, 255, 255)}
+td, h1 { padding: 20px;    text-align: center;}
+input, select {
+    padding: 6px 10px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid rgb(245, 6, 6);
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+button:hover {  background-color: rgb(255, 60, 1);}
+
+  
+  p, li {
+    font-size: 0px;
+    line-height: 2;
+    letter-spacing: 1px;
+  }
+  
+  
+  html {
+    background-color: #000000;
+  }
+  
+  body {
+    width: 715px;
+    margin: 0 auto;
+    background-color: #FF9500;
+    padding: 0 20px 20px 20px;
+    border: 5px solid black;
+  }
+  
+  h1 { /*QR코드 스캔 글씨*/
+    margin: 0;
+    padding: 0px;
+    color: #ffffff;
+    text-shadow: 3px 3px 1px black;
+  }
+
+
+
+  h4 {/*가게코드, 품목이름*/
+    margin: 20px 20px 10px 22px;
+    padding : 0px;
+    font-size: 30px;
+    color: black;
+    text-align: center;
+  }
+  h5 {/*금액*/
+    margin: 20px 20px 10px 182px;
+    padding : 0px;
+    font-size: 30px;
+    color: black;
+    text-align: center;
+  }
+  h6 { /*비밀번호*/
+    margin: 20px 20px 10px 108px;
+    padding : 0px;
+    font-size: 30px;
+    color: black;
+    text-align: center;
+  }
+
+ 
+
+
+
+  
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+
+  /*****************************************qr코드 스캐너*****************************************/
+  main {
+    width:100%;
+    height:100%;
+    text-align:center;
+}
+
+
+
+main > div {
+    float:left;
+    width:1%;
+    height:98%;
+}
+
+main > div:first-child {
+    width:49%;
+}
+
+
+
+main > div:last-child {
+    background-color:#D3D3D3;
+    width:49%;
+}
+
+
+
+div#output {
+    background-color:#BDBEBD;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+
+}
+
+
+
+div#frame {
+
+    border:2px solid #005666;
+    background-color:#FFFFFF;
+    margin-left:10px;
+    margin-right:10px;
+    padding-left:8px;
+    padding-right:8px;
+    padding-top:8px;
+    padding-bottom:8px;
+}
+
+
+
+div#outputLayer {
+    text-align:left;
+}
+
+
+
+canvas {
+    width:100%;
+}
